@@ -1,30 +1,41 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {View, StyleSheet, Button, Alert} from 'react-native';
+import {View, StyleSheet, Alert, ScrollView, Text} from 'react-native';
 import {MaterialIcons} from '@expo/vector-icons';
+import {List, ListItem} from 'native-base';
 import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
 import BodyText from "../components/BodyText";
 import IconButton from "../components/IconButton";
 
+
 /**
  * Generates a random number
  * between the min and max, excluding the third param
  *
- * @param min
- * @param max
+ * @param min exclusive
+ * @param max exclusive
  * @param exclude
  * @returns {number}
  */
 const generateRandomBetween = (min, max, exclude) => {
-    min = Math.ceil(min);
+    min = Math.ceil(min + 1);
     max = Math.floor(max);
     const rndNum = Math.floor(Math.random() * (max - min) + min);
     if (rndNum === exclude) {
         return generateRandomBetween(min, max, exclude);
     }
-
     return rndNum;
 };
+
+const renderListItem = (value, numOfRound) => {
+    return (
+        <ListItem style={styles.listContainer} key={value}>
+            <BodyText>#{numOfRound}</BodyText>
+            <BodyText>{value}</BodyText>
+        </ListItem>
+    )
+};
+
 
 /**
  * @param props
@@ -84,6 +95,9 @@ const GameScreen = props => {
                     <MaterialIcons name={"add"}/> {' Greater'}
                 </IconButton>
             </Card>
+            <List>
+                {pastGuesses.map((guess, index) => renderListItem(guess, index))}
+            </List>
         </View>
     );
 };
@@ -92,13 +106,19 @@ const styles = StyleSheet.create({
     screen: {
         flex: 1,
         padding: 10,
-        alignItems: 'center'
+        alignItems: 'center',
     },
     buttonContainer: {
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'space-around',
         paddingHorizontal: 15,
+    },
+    listContainer: {
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-around',
+        alignItems: 'center',
     },
 });
 
