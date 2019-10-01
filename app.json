@@ -3,7 +3,7 @@
     "name": "RN Guess the number",
     "slug": "rn-guess-the-number",
     "privacy": "public",
-    "sdkVersion": "34.0.0",
+    "sdkVersion": "35.0.0",
     "platforms": [
       "ios",
       "android",
